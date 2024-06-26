@@ -33,25 +33,25 @@ export default class ProductsController {
   static async register(request: Request, response: Response) {
     const { name, price } = request.body;
 
-    const userData: Partial<Product> = {
+    const productData: Partial<Product> = {
       name,
       price,
     };
 
     try {
       const isUserExists = await Product.findOne({
-        where: [{ email }, { principal_id: ic.caller().toText() }, { username }],
+        where: [{ name }],
       });
 
       if (isUserExists) {
         response.status(400);
         return response.json({
           status: 0,
-          message: 'Username/Email/Identity already taken.',
+          message: 'Product name already taken.',
         });
       }
 
-      await User.save(userData);
+      await Product.save(productData);
 
       return response.json({
         status: 1,
@@ -67,12 +67,12 @@ export default class ProductsController {
   }
 
   static async edit(request: Request, response: Response) {
-    const { name, tiktok, instagram, facebook, twitter, website, bio, profile_photo, banner_photo } = request.body;
+    const { name, price } = request.body;
 
     try {
-      const findUser = await User.findOneBy({ principal_id: ic.caller().toText() });
+      const findProduct = await Product.findOneBy({ id: parseInt(ic.caller().toText()) });
 
-      if (!findUser) {
+      if (!findProduct) {
         response.status(400);
         return response.json({
           status: 0,
@@ -81,7 +81,7 @@ export default class ProductsController {
       }
 
       if (bio) {
-        findUser.bio = bio;
+        findProduct.bio = bio;
       }
 
       if (name) {
