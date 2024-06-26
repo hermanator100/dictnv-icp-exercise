@@ -6,14 +6,14 @@ export default class ProductsController {
   static async search(request: Request, response: Response) {
     try {
       const product = await Product.findOneBy({
-        id: ic.caller().toText(),
+        id: parseInt(ic.caller().toText()),
       });
 
       if (!product) {
         response.status(404);
         return response.json({
           status: 0,
-          message: 'User not found.',
+          message: 'Product not found.',
         });
       }
 
@@ -31,20 +31,15 @@ export default class ProductsController {
   }
 
   static async register(request: Request, response: Response) {
-    const { email, username, name } = request.body;
+    const { name, price } = request.body;
 
     const userData: Partial<Product> = {
-      email,
       name,
-      username,
-      principal_id: ic.caller().toText(),
-      status: 1,
-      created_at: Date.now(),
-      updated_at: Date.now(),
+      price,
     };
 
     try {
-      const isUserExists = await User.findOne({
+      const isUserExists = await Product.findOne({
         where: [{ email }, { principal_id: ic.caller().toText() }, { username }],
       });
 
@@ -71,7 +66,7 @@ export default class ProductsController {
     }
   }
 
-  static async update(request: Request, response: Response) {
+  static async edit(request: Request, response: Response) {
     const { name, tiktok, instagram, facebook, twitter, website, bio, profile_photo, banner_photo } = request.body;
 
     try {
