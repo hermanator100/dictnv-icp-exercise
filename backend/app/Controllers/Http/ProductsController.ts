@@ -6,10 +6,10 @@ export default class ProductsController {
   static async search(request: Request, response: Response) {
     try {
       const product = await Product.findOneBy({
-        principal_id: ic.caller().toText(),
+        id: ic.caller().toText(),
       });
 
-      if (!user) {
+      if (!product) {
         response.status(404);
         return response.json({
           status: 0,
@@ -19,7 +19,7 @@ export default class ProductsController {
 
       return response.json({
         status: 1,
-        data: user,
+        data: product,
       });
     } catch (error: any) {
       response.status(400);
@@ -33,7 +33,7 @@ export default class ProductsController {
   static async register(request: Request, response: Response) {
     const { email, username, name } = request.body;
 
-    const userData: Partial<User> = {
+    const userData: Partial<Product> = {
       email,
       name,
       username,
