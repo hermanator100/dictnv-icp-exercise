@@ -19,6 +19,10 @@ Route.get('/user/me', isAuth, UsersController.me);
 Route.post('/user/register', isAuth, UsersController.register);
 Route.post('/user/update', isAuth, UsersController.update);
 
+//Products: Products list
+Route.get('/product/search', isAuth, ProductsController.search);
+Route.post('/product/register', isAuth, ProductsController.register)
+Route.post('/product/update', isAuth, ProductsController.update)
 /*
 |--------------------------------------------------------------------------
 | Public Routes

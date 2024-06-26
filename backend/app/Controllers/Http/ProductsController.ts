@@ -1,11 +1,11 @@
-import { User } from 'Database/entities/user';
+import { Product } from 'Database/entities/product';
 import { ic } from 'azle';
 import { Response, Request } from 'express';
 
-export default class UsersController {
-  static async me(request: Request, response: Response) {
+export default class ProductsController {
+  static async search(request: Request, response: Response) {
     try {
-      const user = await User.findOneBy({
+      const product = await Product.findOneBy({
         principal_id: ic.caller().toText(),
       });
 
