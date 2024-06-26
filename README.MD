@@ -1,3 +1,3 @@
 DICT Exercise Repository
 
-Gender: Male
+^ == UNFINISHED PROJECT == ^
